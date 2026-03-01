@@ -24,7 +24,8 @@ export default defineConfig({
       alias: {
         '@renderer': resolve('src/renderer/src'),
         '@shared': resolve('shared'),
-        '@core': resolve('src/renderer/src/core')
+        '@core': resolve('src/renderer/src/core'),
+        '@presentation': resolve('src/renderer/src/presentation')
       }
     },
     plugins: [react()]
