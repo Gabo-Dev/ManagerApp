@@ -3,12 +3,28 @@ import { defineConfig } from 'electron-vite'
 import react from '@vitejs/plugin-react'
 
 export default defineConfig({
-  main: {},
-  preload: {},
+  main: {
+    build:{
+      externalizeDeps: true
+    },
+    resolve: {
+      alias: {
+        '@shared': resolve('shared'),
+        '@core': resolve('src/renderer/src/core')
+      }
+    }
+  },
+  preload: {
+    build: {
+      externalizeDeps: true
+    }
+  },
   renderer: {
     resolve: {
       alias: {
-        '@renderer': resolve('src/renderer/src')
+        '@renderer': resolve('src/renderer/src'),
+        '@shared': resolve('shared'),
+        '@core': resolve('src/renderer/src/core')
       }
     },
     plugins: [react()]
