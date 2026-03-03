@@ -2,7 +2,8 @@ import { app, shell, BrowserWindow, ipcMain } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
-import { initDB } from './db/index';
+import { initDB } from './db/index'
+import { clientRepository } from '@/repositories/clients.repository'
 
 function createWindow(): void {
   // Create the browser window.
@@ -45,10 +46,10 @@ app.whenReady().then(async () => {
 
   // Init BD
   try {
-    await initDB();
-    console.log('🚀 Database initialized and migrated');
+    await initDB()
+    console.log('🚀 Database initialized and migrated')
   } catch (error) {
-    console.error('Failed to initialize database:', error);
+    console.error('Failed to initialize database:', error)
   }
 
   // Default open or close DevTools by F12 in development
@@ -58,8 +59,19 @@ app.whenReady().then(async () => {
     optimizer.watchWindowShortcuts(window)
   })
 
-  // IPC test
-  ipcMain.on('ping', () => console.log('pong'))
+  /*--- MANEJADORES DE IPC ---*/
+  ipcMain.handle('db:createClient', async (_, clientData) => {
+    try {
+      const newClient = await clientRepository.create(clientData)
+      return newClient
+    } catch (error) {
+      // Logueamos el error en el main process para debugging
+      console.error('❌ Error al crear cliente:', error)
+      // Re-lanzamos el error para que la promesa en el renderer sea rechazada
+      // y podamos manejarlo en la UI.
+      throw error
+    }
+  })
 
   createWindow()
 

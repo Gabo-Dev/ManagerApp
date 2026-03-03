@@ -1,22 +1,32 @@
-import { contextBridge } from 'electron'
-import { electronAPI } from '@electron-toolkit/preload'
+import { contextBridge, ipcRenderer } from 'electron'
+import { clientRepository } from '../main/repositories/clients.repository'
 
-// Custom APIs for renderer
-const api = {}
+// Inferimos los tipos para no reescribirlos.
+type ClientRepository = typeof clientRepository
+type CreateClientParams = Parameters<ClientRepository['create']>[0]
 
-// Use `contextBridge` APIs to expose Electron APIs to
-// renderer only if context isolation is enabled, otherwise
-// just add to the DOM global.
+// La API que vamos a exponer al mundo de React.
+const dbApi = {
+  createClient: (data: CreateClientParams) => ipcRenderer.invoke('db:createClient', data)
+}
+
+// Exponemos nuestra `dbApi` en el objeto `window` del renderer,
+// pero de forma segura bajo la propiedad `db`.
 if (process.contextIsolated) {
   try {
-    contextBridge.exposeInMainWorld('electron', electronAPI)
-    contextBridge.exposeInMainWorld('api', api)
+    contextBridge.exposeInMainWorld('db', dbApi)
   } catch (error) {
     console.error(error)
   }
 } else {
-  // @ts-ignore (define in dts)
-  window.electron = electronAPI
-  // @ts-ignore (define in dts)
-  window.api = api
+  // Esto es para entornos viejos sin `contextIsolation`, no deberías caer acá.
+  // @ts-ignore - Ignoramos el error de TypeScript porque sabemos que `window` existe en este contexto.
+  window.db = dbApi
+}
+
+// Definimos el tipo global para que TypeScript no se queje en React
+declare global {
+  interface Window {
+    db: typeof dbApi
+  }
 }

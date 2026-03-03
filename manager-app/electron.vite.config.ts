@@ -4,7 +4,7 @@ import react from '@vitejs/plugin-react'
 
 export default defineConfig({
   main: {
-    build:{
+    build: {
       externalizeDeps: true
     },
     resolve: {
@@ -25,9 +25,11 @@ export default defineConfig({
         '@renderer': resolve('src/renderer/src'),
         '@shared': resolve('shared'),
         '@core': resolve('src/renderer/src/core'),
-        '@presentation': resolve('src/renderer/src/presentation')
+        '@presentation': resolve('src/renderer/src/presentation'),
+        '@repositories': resolve('src/main/src/repositories')
       }
     },
     plugins: [react()]
   }
 })
+
