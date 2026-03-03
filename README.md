@@ -1,37 +1,47 @@
 # ManagerApp 📊
 
-**ManagerApp** es una solución de escritorio profesional para la gestión de clientes y seguimiento de métricas corporales. Construida con Electron, React, TypeScript y SQLite, está enfocada en la privacidad (Local-first) y el alto rendimiento.
+**ManagerApp** es una solución de escritorio profesional para la gestión de clientes y seguimiento de métricas corporales. Construida con un stack moderno sobre Electron, está enfocada en la privacidad (Local-first) y una arquitectura limpia y escalable.
 
-## Características Principales
-* **Gestión de Clientes**: Registro y administración de perfiles individuales.
-* **Seguimiento Antropométrico**: Control de medidas (cuello, cintura, cadera, etc.) y pliegues (tricipital, abdominal, etc.).
-* **Cálculos Automáticos**: Generación de IMC, Peso Graso, Masa Libre de Grasa (MLG) y porcentajes de grasa/MME.
-* **Privacidad Local-first**: Todos los datos se almacenan localmente en el dispositivo del usuario (`%APPDATA%`) sin envíos a servidores externos.
-* **Sistema de Backups**: Herramientas integradas para respaldos manuales y automáticos con rotación.
+## ✨ Características Implementadas
 
-## 🛠️ Stack Tecnológico
-* **Framework**: [Electron](https://www.electronjs.org/) + [Vite](https://vitejs.dev/) + [React](https://reactjs.org/)
-* **Lenguaje**: TypeScript
-* **Estilos**: Tailwind CSS
-* **Base de Datos**: SQLite (vía [Drizzle ORM](https://orm.drizzle.team/))
-* **Validación**: Zod
-* **Estado**: Zustand
-* **Testing**: Vitest
+*   **Arquitectura de Frontend Escalable:**
+    *   Implementación de un sistema de **Layouts Persistentes** y **Páginas**.
+    *   Navegación interna gestionada por **React Router**, desacoplando la UI de la lógica de enrutamiento.
+    *   Estructura de carpetas clara (`layouts`, `pages`, `components`).
+*   **Comunicación Segura Main-Renderer:**
+    *   Patrón de IPC robusto usando `ipcMain.handle`/`ipcRenderer.invoke` para comunicación asíncrona.
+    *   Uso de un **Preload Script** con `contextBridge` para exponer APIs al `renderer` de forma segura, previniendo la fuga de APIs de Node.js.
+*   **Acceso a Datos con Repository Pattern:**
+    *   Toda la lógica de base de datos para los clientes está encapsulada en un `clientRepository`.
+    *   Implementados métodos para **Crear** y **Leer** clientes, siguiendo principios de responsabilidad única.
 
-## 🏗️ Arquitectura y Estructura
-El proyecto sigue los principios de **Clean Architecture** y **Clean Code**, organizando el código de la siguiente manera:
+## 🛠️ Stack Tecnológico Principal
+
+*   **Framework de Escritorio**: [Electron](https://www.electronjs.org/)
+*   **Tooling de Frontend**: [Vite](https://vitejs.dev/) + [React](https://reactjs.org/)
+*   **Lenguaje**: TypeScript
+*   **Estilos**: Tailwind CSS
+*   **Base de Datos**: SQLite con [Drizzle ORM](https://orm.drizzle.team/)
+*   **Routing**: React Router DOM
+*   **Estado Global**: Zustand
+*   **Validación de Esquemas**: Zod
+
+## 🏗️ Estructura del Proyecto
+
+El proyecto sigue una arquitectura limpia, separando el `main` y `renderer` process. La estructura del `renderer` está inspirada en Atomic Design y Vertical Slices.
 
 ```
 src/
 ├── main/                  # Proceso principal de Electron (Node.js)
-│   ├── db/                # Esquemas de Drizzle y migraciones de SQLite
-│   └── services/          # Lógica de servidor y controladores de datos
-├── renderer/              # Interfaz de usuario (React)
+│   ├── db/                # Drizzle: Esquemas, cliente y migraciones.
+│   └── repositories/      # Repository Pattern: Abstracción del acceso a datos.
+│
+├── renderer/              # Proceso de UI (React)
 │   ├── src/
-│   │   ├── core/          # Dominio: Entidades, Reglas de Negocio y Casos de Uso
-│   │   ├── data/          # Adaptadores: Comunicación IPC con el proceso Main
-│   │   ├── presentation/  # UI: Componentes, Hooks de Estado (Zustand) y Vistas
-│   │   └── shared/        # Utilidades, esquemas de Zod y constantes
-├── types/                 # Tipados globales compartidos
-└── tests/                 # Pruebas unitarias y de integración
+│   │   ├── components/    # Componentes de UI reusables y "tontos" (Botones, Inputs...).
+│   │   ├── layouts/       # Layouts de la aplicación (Ej: MainLayout con Sidebar).
+│   │   ├── pages/         # Componentes de página que orquestan la UI y la lógica.
+│   │   └── assets/        # Archivos estáticos como CSS e imágenes.
+│
+└── preload/               # Puente seguro entre el main y el renderer.
 ```
