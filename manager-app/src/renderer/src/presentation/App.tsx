@@ -1,6 +1,6 @@
 import type { JSX } from 'react'
-import { CreateClientForm } from './components/CreateClientForm'
-import { ClientsList } from './components/ClientsList'
+import { CreateClientForm } from '@renderer/components/CreateClientForm'
+import { ClientsList } from '@renderer/components/ClientsList'
 
 function App(): JSX.Element {
   return (
