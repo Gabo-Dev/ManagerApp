@@ -2,7 +2,7 @@ import { app, shell, BrowserWindow, ipcMain } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
-import { initDB } from './db/index'
+import { initDB } from '@/db/index'
 import { clientRepository } from '@/repositories/clients.repository'
 
 function createWindow(): void {
@@ -69,6 +69,16 @@ app.whenReady().then(async () => {
       console.error('❌ Error al crear cliente:', error)
       // Re-lanzamos el error para que la promesa en el renderer sea rechazada
       // y podamos manejarlo en la UI.
+      throw error
+    }
+  })
+
+  ipcMain.handle('db:getAllClients', async () => {
+    try {
+      const clientes = await clientRepository.getAll()
+      return clientes
+    } catch (error) {
+      console.error('❌ Error al obtener clientes:', error)
       throw error
     }
   })

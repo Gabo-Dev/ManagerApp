@@ -15,8 +15,7 @@
       "@presentation/*": ["src/renderer/src/presentation/*"],
       "@core/*": ["src/renderer/src/core/*"],
       "@shared/*": ["src/shared/*"],
-      "@data/*": ["src/renderer/src/data/*"],
-      "@repositories/*": ["src/main/src/repositories/*"],
+      "@data/*": ["src/renderer/src/data/*"]
     }
   }
 }

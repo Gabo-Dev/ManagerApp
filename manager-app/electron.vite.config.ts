@@ -9,8 +9,8 @@ export default defineConfig({
     },
     resolve: {
       alias: {
-        '@shared': resolve('shared'),
-        '@core': resolve('src/renderer/src/core')
+        '@': resolve('src/main'),
+        '@shared': resolve('shared')
       }
     }
   },
@@ -25,11 +25,9 @@ export default defineConfig({
         '@renderer': resolve('src/renderer/src'),
         '@shared': resolve('shared'),
         '@core': resolve('src/renderer/src/core'),
-        '@presentation': resolve('src/renderer/src/presentation'),
-        '@repositories': resolve('src/main/src/repositories')
+        '@presentation': resolve('src/renderer/src/presentation')
       }
     },
     plugins: [react()]
   }
 })
-

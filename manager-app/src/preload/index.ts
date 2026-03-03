@@ -1,5 +1,5 @@
 import { contextBridge, ipcRenderer } from 'electron'
-import { clientRepository } from '../main/repositories/clients.repository'
+import { clientRepository } from '@/repositories/clients.repository'
 
 // Inferimos los tipos para no reescribirlos.
 type ClientRepository = typeof clientRepository
@@ -7,7 +7,8 @@ type CreateClientParams = Parameters<ClientRepository['create']>[0]
 
 // La API que vamos a exponer al mundo de React.
 const dbApi = {
-  createClient: (data: CreateClientParams) => ipcRenderer.invoke('db:createClient', data)
+  createClient: (data: CreateClientParams) => ipcRenderer.invoke('db:createClient', data),
+  getAllClients: () => ipcRenderer.invoke('db:getAllClients')
 }
 
 // Exponemos nuestra `dbApi` en el objeto `window` del renderer,
