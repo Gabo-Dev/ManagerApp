@@ -12,4 +12,3 @@ export interface Cliente {
  * Omit para quitar los campos automáticos
  */
 export type CreateClienteInput = Omit<Cliente, 'id' | 'createdAt' | 'updatedAt'>
-

@@ -11,7 +11,11 @@ interface TableProps<T> {
   onRowClick?: (item: T) => void
 }
 
-export function Table<T extends { id: string }>({ columns, data, onRowClick }: TableProps<T>): JSX.Element {
+export function Table<T extends { id: string }>({
+  columns,
+  data,
+  onRowClick
+}: TableProps<T>): JSX.Element {
   return (
     <div className="overflow-hidden bg-white border border-slate-200 rounded-xl shadow-sm">
       <table className="min-w-full divide-y divide-slate-200">
@@ -37,14 +41,19 @@ export function Table<T extends { id: string }>({ columns, data, onRowClick }: T
               >
                 {columns.map((col, i) => (
                   <td key={i} className="px-6 py-4 whitespace-nowrap text-sm text-slate-700">
-                    {typeof col.accessor === 'function' ? col.accessor(item) : (item[col.accessor] as ReactNode)}
+                    {typeof col.accessor === 'function'
+                      ? col.accessor(item)
+                      : (item[col.accessor] as ReactNode)}
                   </td>
                 ))}
               </tr>
             ))
           ) : (
             <tr>
-              <td colSpan={columns.length} className="px-6 py-10 text-center text-sm text-slate-400 italic">
+              <td
+                colSpan={columns.length}
+                className="px-6 py-10 text-center text-sm text-slate-400 italic"
+              >
                 No hay datos disponibles
               </td>
             </tr>

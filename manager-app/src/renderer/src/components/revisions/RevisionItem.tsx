@@ -2,9 +2,12 @@ import { useState, type JSX } from 'react'
 import { type Revision } from '@/repositories/revisions.repository'
 import { Button } from '../Button'
 import { 
-  ChevronDown, ChevronUp, Calendar, Activity, Trash2, Edit2, Info,
-  Scale, Ruler, Layers, User, Target, TrendingUp, Heart
+  ChevronDown, Calendar, Trash2, Edit2, Info,
+  Heart
 } from 'lucide-react'
+import { REVISION_SECTIONS } from './fields.config'
+import { MetricBadge } from './MetricBadge'
+import { DataChip } from './DataChip'
 
 interface RevisionItemProps {
   revision: Revision
@@ -16,125 +19,86 @@ interface RevisionItemProps {
 export function RevisionItem({ revision, isLatest, onEdit, onDelete }: RevisionItemProps): JSX.Element {
   const [isExpanded, setIsExpanded] = useState(false)
 
-  const Metric = ({ label, value, unit, color = 'blue' }: { label: string, value: number | string, unit: string, color?: string }) => (
-    <div className="space-y-0.5">
-      <p className="text-[9px] font-black text-slate-400 uppercase tracking-tighter">{label}</p>
-      <p className={`text-sm font-bold text-${color}-600`}>{value || '-'} <span className="text-[10px] font-medium text-slate-400 uppercase">{unit}</span></p>
-    </div>
-  )
-
-  const DetailField = ({ label, value, unit, isHighlight = false }: { label: string, value: any, unit?: string, isHighlight?: boolean }) => (
-    <div className={`p-2 rounded-lg border ${isHighlight ? 'bg-blue-50 border-blue-100' : 'bg-slate-50/50 border-slate-50'}`}>
-      <p className="text-[9px] font-bold text-slate-400 uppercase mb-0.5">{label}</p>
-      <p className={`text-xs font-bold ${isHighlight ? 'text-blue-700' : 'text-slate-700'}`}>{value ?? '-'} <span className="text-[10px] font-normal text-slate-400">{unit}</span></p>
-    </div>
-  )
-
   return (
-    <div className={`group bg-white border ${isLatest ? 'border-blue-200 ring-4 ring-blue-50' : 'border-slate-100'} rounded-2xl transition-all duration-300 hover:shadow-md overflow-hidden`}>
-      <div className="p-4 flex items-center justify-between cursor-pointer" onClick={() => setIsExpanded(!isExpanded)}>
-        <div className="flex items-center gap-4">
-          <div className={`p-2.5 ${isLatest ? 'bg-blue-600 text-white' : 'bg-slate-100 text-slate-500'} rounded-xl transition-colors`}>
-            <Calendar size={20} />
+    <div className={`
+      group bg-white border transition-all duration-500 rounded-[2.5rem]
+      ${isLatest ? 'border-blue-200 ring-8 ring-blue-50/50 shadow-2xl shadow-blue-200/20' : 'border-slate-100 shadow-xl shadow-slate-200/30'}
+      hover:shadow-2xl hover:border-blue-100
+    `}>
+      <div 
+        className="p-6 flex items-center justify-between cursor-pointer select-none"
+        onClick={() => setIsExpanded(!isExpanded)}
+      >
+        <div className="flex items-center gap-6">
+          <div className={`p-4 ${isLatest ? 'bg-blue-600 text-white shadow-xl shadow-blue-200' : 'bg-slate-50 text-slate-400'} rounded-3xl transition-all duration-500 group-hover:rotate-3`}>
+            <Calendar size={24} />
           </div>
-          <div>
-            <div className="flex items-center gap-2">
-              <p className="font-bold text-slate-800">{new Date(revision.fecha).toLocaleDateString()}</p>
-              <span className="text-[9px] font-bold text-slate-400 bg-slate-100 px-1.5 py-0.5 rounded uppercase">Semana {revision.semanaRevision}</span>
-              {isLatest && <span className="text-[9px] font-black bg-blue-100 text-blue-700 px-1.5 py-0.5 rounded uppercase tracking-widest">Última</span>}
+          <div className="space-y-1">
+            <div className="flex items-center gap-3">
+              <p className="text-xl font-black text-slate-800 tracking-tighter">{new Date(revision.fecha).toLocaleDateString()}</p>
+              {isLatest && <span className="px-3 py-1 bg-blue-600 text-white text-[9px] font-black rounded-full uppercase tracking-[0.2em] shadow-lg shadow-blue-200">Última</span>}
             </div>
-            <p className="text-xs text-slate-400 font-medium">{revision.etapaActual}</p>
+            <div className="flex items-center gap-2">
+              <span className="text-[10px] font-bold text-slate-400 bg-slate-50 px-2 py-0.5 rounded-lg border border-slate-100">Semana {revision.semanaRevision}</span>
+              <span className="text-[10px] font-black text-blue-500 uppercase tracking-widest">{revision.etapaActual}</span>
+            </div>
           </div>
         </div>
-
-        <div className="hidden xl:flex items-center gap-8 px-8 border-x border-slate-50">
-          <Metric label="Peso" value={revision.pesoAyunasKg} unit="kg" />
-          <Metric label="IMC" value={revision.imc} unit="" color="indigo" />
-          <Metric label="% Grasa" value={revision.porcentajeGrasa} unit="%" color="emerald" />
-          <Metric label="MME" value={revision.porcentajeMme} unit="%" color="blue" />
+        <div className="hidden xl:flex items-center px-10 border-x border-slate-100 divide-x divide-slate-100">
+          <MetricBadge label="Peso" value={revision.pesoAyunasKg} unit="kg" />
+          <MetricBadge label="IMC" value={revision.imc} color="indigo" />
+          <MetricBadge label="% Grasa" value={revision.porcentajeGrasa} unit="%" color="emerald" />
+          <MetricBadge label="Masa Muscular" value={revision.porcentajeMme} unit="%" color="rose" />
         </div>
-
-        <div className="flex items-center gap-2">
-          <div className="flex opacity-0 group-hover:opacity-100 transition-opacity gap-1">
-            <Button variant="ghost" size="sm" onClick={(e) => { e.stopPropagation(); onEdit(revision); }}><Edit2 size={16} className="text-slate-400" /></Button>
-            <Button variant="ghost" size="sm" onClick={(e) => { e.stopPropagation(); onDelete(revision.id); }}><Trash2 size={16} className="text-red-400" /></Button>
+        <div className="flex items-center gap-4">
+          <div className="flex opacity-0 group-hover:opacity-100 transition-all duration-300 translate-x-4 group-hover:translate-x-0 gap-2">
+            <Button variant="ghost" className="w-11 h-11 rounded-2xl hover:bg-blue-50 text-slate-400 hover:text-blue-600" onClick={(e) => { e.stopPropagation(); onEdit(revision); }}>
+              <Edit2 size={20} />
+            </Button>
+            <Button variant="ghost" className="w-11 h-11 rounded-2xl hover:bg-red-50 text-slate-400 hover:text-red-600" onClick={(e) => { e.stopPropagation(); onDelete(revision.id); }}>
+              <Trash2 size={20} />
+            </Button>
           </div>
-          <div className={`p-1.5 rounded-full ${isExpanded ? 'bg-blue-50 text-blue-600' : 'text-slate-300'}`}>
-            {isExpanded ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
+          <div className={`p-3 rounded-2xl transition-all duration-500 ${isExpanded ? 'bg-slate-900 text-white rotate-180 shadow-xl' : 'bg-slate-50 text-slate-300'}`}>
+            <ChevronDown size={24} strokeWidth={3} />
           </div>
         </div>
       </div>
 
       {isExpanded && (
-        <div className="px-6 pb-8 animate-in slide-in-from-top-2 duration-300 border-t border-slate-50 pt-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            
-            <div className="space-y-4">
-              <h6 className="text-[10px] font-black text-blue-500 uppercase tracking-widest flex items-center gap-2"><Target size={14} /> Control & Peso</h6>
-              <div className="grid grid-cols-2 gap-2">
-                <DetailField label="Peso Actual" value={revision.pesoAyunasKg} unit="kg" isHighlight />
-                <DetailField label="Peso Obj." value={revision.pesoObjetivoKg} unit="kg" />
-                <DetailField label="Estatura" value={revision.estaturaM} unit="m" />
-                <DetailField label="Etapa" value={revision.etapaActual} />
-              </div>
-            </div>
-
-            <div className="space-y-4">
-              <h6 className="text-[10px] font-black text-emerald-500 uppercase tracking-widest flex items-center gap-2"><Ruler size={14} /> Perímetros (cm)</h6>
-              <div className="grid grid-cols-2 gap-2">
-                <DetailField label="Cuello" value={revision.cuelloCm} />
-                <DetailField label="Cintura" value={revision.cinturaCm} />
-                <DetailField label="Cadera" value={revision.caderaCm} />
-                <DetailField label="Pecho" value={revision.pechoCm} />
-                <DetailField label="Espalda" value={revision.espaldaCm} />
-              </div>
-            </div>
-
-            <div className="space-y-4">
-              <h6 className="text-[10px] font-black text-indigo-500 uppercase tracking-widest flex items-center gap-2"><User size={14} /> Extremidades (cm)</h6>
-              <div className="grid grid-cols-2 gap-2">
-                <DetailField label="Bíceps I/D" value={`${revision.bicepsIzqCm} / ${revision.bicepsDerCm}`} />
-                <DetailField label="Cuádr. I/D" value={`${revision.cuadricepsIzqCm} / ${revision.cuadricepsDerCm}`} />
-                <DetailField label="Gemelo I/D" value={`${revision.gemeloIzqCm} / ${revision.gemeloDerCm}`} />
-              </div>
-            </div>
-
-            <div className="space-y-4">
-              <h6 className="text-[10px] font-black text-amber-500 uppercase tracking-widest flex items-center gap-2"><Layers size={14} /> Pliegues (mm)</h6>
-              <div className="grid grid-cols-2 gap-2">
-                <DetailField label="Tricipital" value={revision.tricipitalMm} />
-                <DetailField label="Escapular" value={revision.escapularMm} />
-                <DetailField label="Abdominal" value={revision.abdominalMm} />
-                <DetailField label="Iliaco" value={revision.cIliacaMm} />
-              </div>
-            </div>
-
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 mt-8 pt-8 border-t border-slate-50">
-            <div className="lg:col-span-3 space-y-4">
-              <h6 className="text-[10px] font-black text-slate-800 uppercase tracking-widest flex items-center gap-2"><TrendingUp size={14} /> Composición Corporal</h6>
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2">
-                <DetailField label="IMC" value={revision.imc} isHighlight />
-                <DetailField label="% Grasa" value={revision.porcentajeGrasa} unit="%" isHighlight />
-                <DetailField label="P. Graso" value={revision.pesoGrasoKg} unit="kg" />
-                <DetailField label="MLG" value={revision.mlgKg} unit="kg" />
-                <DetailField label="% MME" value={revision.porcentajeMme} unit="%" />
-                <DetailField label="% Otros" value={revision.porcentajeOtros} unit="%" />
-              </div>
-            </div>
-            
-            <div className="space-y-4">
-              <h6 className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-2"><Info size={14} /> Observaciones</h6>
-              <div className="bg-amber-50/50 p-3 rounded-xl border border-amber-100/50 min-h-[60px]">
-                <p className="text-[11px] text-amber-900 leading-relaxed italic">{revision.observaciones || 'Sin notas.'}</p>
-              </div>
-              {revision.cicloFemenino && (
-                <div className="flex items-center gap-2 text-pink-600 bg-pink-50 p-2 rounded-lg border border-pink-100">
-                  <Heart size={12} />
-                  <span className="text-[10px] font-bold uppercase">Ciclo: {revision.cicloFemenino}</span>
+        <div className="px-8 pb-12 animate-in slide-in-from-top-8 fade-in duration-700 border-t border-slate-50 pt-10 bg-slate-50/20">
+          <div className="space-y-12">
+            {REVISION_SECTIONS.map((section, sIdx) => (
+              <div key={sIdx} className="space-y-4">
+                <h6 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] flex items-center gap-2 mb-4">
+                  <section.icon size={14} strokeWidth={3} /> {section.title}
+                </h6>
+                <div className="flex flex-wrap gap-4">
+                  {section.fields.map(field => (
+                    <DataChip
+                      key={field.name}
+                      label={field.label}
+                      value={revision[field.name as keyof Revision] as string | number}
+                      unit={
+                        field.name.includes('Kg') ? 'kg' : 
+                        field.name.includes('Cm') ? 'cm' : 
+                        field.name.includes('Mm') ? 'mm' : 
+                        field.name.includes('porcentaje') ? '%' : ''
+                      }
+                      variant="slate"
+                    />
+                  ))}
                 </div>
-              )}
+              </div>
+            ))}
+            <div className="space-y-4">
+              <h6 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] flex items-center gap-2 mb-4">
+                <Info size={14} strokeWidth={3} /> Adicional
+              </h6>
+              <div className="flex flex-wrap gap-4">
+                {revision.observaciones && <DataChip label="Observaciones" value={revision.observaciones} variant="amber" />}
+                {revision.cicloFemenino && <DataChip label="Ciclo Femenino" value={revision.cicloFemenino} variant="rose" icon={<Heart size={14} />} />}
+              </div>
             </div>
           </div>
         </div>

@@ -1,90 +1,40 @@
-import { type JSX, useState } from 'react'
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
-import { fetchClientRevisions, deleteRevision, createRevision, updateRevision } from '../data/revision.data'
-import { fetchAllClients } from '../data/client.data'
-import { type Revision } from '@/repositories/revisions.repository'
-import { type Client } from '@/repositories/clients.repository'
-import { 
-  ClipboardList, 
-  Activity, 
-  ArrowLeft, 
-  ChevronRight, 
-  Search,
-  Plus
-} from 'lucide-react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { type JSX } from 'react'
+import { ClipboardList, Activity, ArrowLeft, ChevronRight, Search, Plus } from 'lucide-react'
 import { Button } from '@renderer/components/Button'
 import { Table } from '@renderer/components/Table'
 import { RevisionItem } from '@renderer/components/revisions/RevisionItem'
 import { Modal } from '@renderer/components/Modal'
 import { RevisionForm } from '@renderer/components/revisions/RevisionForm'
 import { ConfirmDialog } from '@renderer/components/ConfirmDialog'
+import { useRevisionsPage } from './useRevisionsPage'
+import { type Client } from '@/repositories/clients.repository'
 
 export function RevisionsPage(): JSX.Element {
-  const navigate = useNavigate()
-  const queryClient = useQueryClient()
-  const location = useLocation()
-  
-  const state = location.state as { clientId?: string } | null
-  const [selectedClientId, setSelectedClientId] = useState<string | null>(state?.clientId || null)
-  const [searchTerm, setSearchTerm] = useState('')
-  const [isModalOpen, setIsModalOpen] = useState(false)
-  const [editingRevision, setEditingRevision] = useState<Revision | undefined>(undefined)
-  
-  // Estado para diálogos de confirmación
-  const [confirmConfig, setConfirmConfig] = useState<{
-    isOpen: boolean;
-    title: string;
-    message: string;
-    onConfirm: () => void;
-    variant?: 'danger' | 'warning';
-  }>({ isOpen: false, title: '', message: '', onConfirm: () => {} })
-
-  const { data: clients = [], isLoading: loadingClients } = useQuery<Client[]>({
-    queryKey: ['clients'],
-    queryFn: fetchAllClients
-  })
-
-  const { data: revisions = [], isLoading: loadingRevisions } = useQuery<Revision[]>({
-    queryKey: ['revisions', selectedClientId],
-    queryFn: () => fetchClientRevisions(selectedClientId!),
-    enabled: !!selectedClientId
-  })
-
-  const saveMutation = useMutation({
-    mutationFn: async (data: any) => {
-      if (editingRevision) return updateRevision(editingRevision.id, data)
-      return createRevision(data)
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['revisions', selectedClientId] })
-      setIsModalOpen(false)
-      setEditingRevision(undefined)
-    }
-  })
-
-  const deleteMutation = useMutation({
-    mutationFn: deleteRevision,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['revisions', selectedClientId] })
-    }
-  })
-
-  const selectedClient = clients.find(c => c.id === selectedClientId)
-  const previousRevision = revisions[0] // La más reciente para comparar
-
-  const filteredClients = clients.filter(c => 
-    c.nombre.toLowerCase().includes(searchTerm.toLowerCase()) || 
-    c.email.toLowerCase().includes(searchTerm.toLowerCase())
-  )
-
-  const openConfirm = (title: string, message: string, onConfirm: () => void, variant: 'danger' | 'warning' = 'warning') => {
-    setConfirmConfig({ isOpen: true, title, message, onConfirm, variant })
-  }
+  const {
+    selectedClientId,
+    setSelectedClientId,
+    searchTerm,
+    setSearchTerm,
+    isModalOpen,
+    setIsModalOpen,
+    editingRevision,
+    setEditingRevision,
+    confirmConfig,
+    loadingClients,
+    loadingRevisions,
+    revisions,
+    selectedClient,
+    previousRevision,
+    filteredClients,
+    saveMutation,
+    deleteMutation,
+    openConfirm,
+    closeConfirm
+  } = useRevisionsPage()
 
   const clientColumns = [
-    { 
-      header: 'Cliente', 
+    {
+      header: 'Cliente',
       accessor: (client: Client) => (
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center text-blue-600 font-bold text-sm uppercase">
@@ -97,11 +47,11 @@ export function RevisionsPage(): JSX.Element {
         </div>
       )
     },
-    { 
-      header: '', 
+    {
+      header: '',
       accessor: () => (
         <div className="flex justify-end pr-4 text-slate-300">
-          <div className="p-2 rounded-full group-hover:bg-blue-50 group-hover:text-blue-600 transition-colors">
+          <div className="p-2 rounded-full transition-colors group-hover:bg-blue-50 group-hover:text-blue-600">
             <ChevronRight size={20} />
           </div>
         </div>
@@ -114,8 +64,12 @@ export function RevisionsPage(): JSX.Element {
       <header className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div className="flex items-center gap-4">
           {selectedClientId ? (
-            <Button variant="ghost" onClick={() => setSelectedClientId(null)} className="rounded-full w-10 h-10 p-0 hover:bg-slate-50 text-slate-400 hover:text-blue-600 border border-slate-50">
-              <ArrowLeft size={20} />
+            <Button 
+              variant="secondary" 
+              onClick={() => setSelectedClientId(null)} 
+              className="rounded-xl w-12 h-12 p-0 hover:bg-blue-600 hover:text-white border-none shadow-sm transition-all duration-300 group"
+            >
+              <ArrowLeft size={24} className="group-hover:-translate-x-1 transition-transform" />
             </Button>
           ) : (
             <div className="p-3 bg-blue-50 rounded-xl text-blue-600">
@@ -124,16 +78,26 @@ export function RevisionsPage(): JSX.Element {
           )}
           <div>
             <h1 className="text-2xl font-bold text-slate-800 tracking-tight">
-              {selectedClientId ? `Revisiones: ${selectedClient?.nombre}` : 'Directorio de Revisiones'}
+              {selectedClientId
+                ? `Revisiones: ${selectedClient?.nombre}`
+                : 'Directorio de Revisiones'}
             </h1>
             <p className="text-sm text-slate-500 font-medium">
-              {selectedClientId ? 'Gestión del historial médico y antropométrico' : 'Busca y selecciona un cliente para ver su evolución'}
+              {selectedClientId
+                ? 'Gestión del historial médico y antropométrico'
+                : 'Busca y selecciona un cliente para ver su evolución'}
             </p>
           </div>
         </div>
 
         {selectedClientId && (
-          <Button onClick={() => { setEditingRevision(undefined); setIsModalOpen(true); }} className="gap-2 shadow-lg shadow-blue-100">
+          <Button
+            onClick={() => {
+              setEditingRevision(undefined)
+              setIsModalOpen(true)
+            }}
+            className="gap-2 shadow-lg shadow-blue-100"
+          >
             <Plus size={18} />
             Nueva Revisión
           </Button>
@@ -144,22 +108,27 @@ export function RevisionsPage(): JSX.Element {
         {!selectedClientId ? (
           <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm space-y-6">
             <div className="relative group">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-500 transition-colors" size={20} />
-              <input 
-                type="text" 
+              <Search
+                className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-500 transition-colors"
+                size={20}
+              />
+              <input
+                type="text"
                 placeholder="Buscar por nombre o correo electrónico..."
                 className="w-full pl-12 pr-4 py-4 bg-slate-50 border border-slate-50 rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:bg-white transition-all text-sm font-medium"
                 value={searchTerm}
-                onChange={e => setSearchTerm(e.target.value)}
+                onChange={(e) => setSearchTerm(e.target.value)}
               />
             </div>
-            
+
             {loadingClients ? (
-              <div className="p-20 text-center text-slate-400 animate-pulse font-bold">Iniciando directorio...</div>
+              <div className="p-20 text-center text-slate-400 animate-pulse font-bold">
+                Iniciando directorio...
+              </div>
             ) : (
-              <Table 
-                columns={clientColumns} 
-                data={filteredClients} 
+              <Table
+                columns={clientColumns}
+                data={filteredClients}
                 onRowClick={(client) => setSelectedClientId(client.id)}
               />
             )}
@@ -173,20 +142,25 @@ export function RevisionsPage(): JSX.Element {
             ) : revisions.length > 0 ? (
               <div className="grid grid-cols-1 gap-4">
                 {revisions.map((rev, idx) => (
-                  <RevisionItem 
-                    key={rev.id} 
-                    revision={rev} 
-                    isLatest={idx === 0} 
-                    onEdit={(r) => { setEditingRevision(r); setIsModalOpen(true); }}
-                    onDelete={(id) => openConfirm(
-                      'Eliminar Revisión',
-                      '¿Estás seguro de que deseas eliminar permanentemente este registro? Esta acción no se puede deshacer.',
-                      () => {
-                        deleteMutation.mutate(id)
-                        setConfirmConfig(prev => ({ ...prev, isOpen: false }))
-                      },
-                      'danger'
-                    )}
+                  <RevisionItem
+                    key={rev.id}
+                    revision={rev}
+                    isLatest={idx === 0}
+                    onEdit={(r) => {
+                      setEditingRevision(r)
+                      setIsModalOpen(true)
+                    }}
+                    onDelete={(id) =>
+                      openConfirm(
+                        'Eliminar Revisión',
+                        '¿Estás seguro de que deseas eliminar permanentemente este registro?',
+                        () => {
+                          deleteMutation.mutate(id)
+                          closeConfirm()
+                        },
+                        'danger'
+                      )
+                    }
                   />
                 ))}
               </div>
@@ -197,7 +171,9 @@ export function RevisionsPage(): JSX.Element {
                 </div>
                 <div className="max-w-xs mx-auto">
                   <p className="text-slate-800 font-bold">Sin revisiones</p>
-                  <p className="text-xs text-slate-400 leading-relaxed">Este cliente aún no tiene registros antropométricos. Pulsa en "Nueva Revisión" para comenzar.</p>
+                  <p className="text-xs text-slate-400 leading-relaxed">
+                    Este cliente aún no tiene registros antropométricos.
+                  </p>
                 </div>
               </div>
             )}
@@ -205,44 +181,40 @@ export function RevisionsPage(): JSX.Element {
         )}
       </main>
 
-      <Modal 
-        isOpen={isModalOpen} 
-        onClose={() => openConfirm(
-          'Descartar cambios',
-          '¿Estás seguro de cerrar el formulario? Se perderán todos los datos que no hayas guardado.',
-          () => {
+      <Modal
+        isOpen={isModalOpen}
+        onClose={() =>
+          openConfirm('Descartar cambios', '¿Estás seguro de cerrar el formulario?', () => {
             setIsModalOpen(false)
-            setConfirmConfig(prev => ({ ...prev, isOpen: false }))
-          }
-        )} 
+            closeConfirm()
+          })
+        }
         title={editingRevision ? 'Actualizar Registro' : 'Nuevo Registro Antropométrico'}
         size="2xl"
       >
         <div className="max-h-[75vh] overflow-y-auto pr-2 custom-scrollbar">
-          <RevisionForm 
-            clientId={selectedClientId!} 
+          <RevisionForm
+            clientId={selectedClientId!}
             clientEmail={selectedClient?.email || ''}
             initialData={editingRevision}
             previousRevision={previousRevision}
             onSuccess={(data) => saveMutation.mutate(data)}
-            onCancel={() => openConfirm(
-              'Descartar cambios',
-              '¿Estás seguro de cancelar? Los datos introducidos se perderán.',
-              () => {
+            onCancel={() =>
+              openConfirm('Descartar cambios', '¿Estás seguro de cancelar?', () => {
                 setIsModalOpen(false)
-                setConfirmConfig(prev => ({ ...prev, isOpen: false }))
-              }
-            )}
+                closeConfirm()
+              })
+            }
           />
         </div>
       </Modal>
 
-      <ConfirmDialog 
+      <ConfirmDialog
         isOpen={confirmConfig.isOpen}
         title={confirmConfig.title}
         message={confirmConfig.message}
         onConfirm={confirmConfig.onConfirm}
-        onCancel={() => setConfirmConfig(prev => ({ ...prev, isOpen: false }))}
+        onCancel={closeConfirm}
         variant={confirmConfig.variant}
       />
     </div>

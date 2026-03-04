@@ -1,6 +1,6 @@
 import { type JSX, useState } from 'react'
-import { ClientsList } from '@renderer/components/ClientsList'
-import { ClientForm } from '@renderer/components/ClientForm'
+import { ClientsList } from '@renderer/components/clients/ClientsList'
+import { ClientForm } from '@renderer/components/clients/ClientForm'
 import { Modal } from '@renderer/components/Modal'
 import { Button } from '@renderer/components/Button'
 import { UserPlus, LayoutGrid } from 'lucide-react'
@@ -10,17 +10,17 @@ export function DashboardPage(): JSX.Element {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [editingClient, setEditingClient] = useState<Client | undefined>(undefined)
 
-  const handleOpenCreate = () => {
+  const handleOpenCreate = (): void => {
     setEditingClient(undefined)
     setIsModalOpen(true)
   }
 
-  const handleOpenEdit = (client: Client) => {
+  const handleOpenEdit = (client: Client): void => {
     setEditingClient(client)
     setIsModalOpen(true)
   }
 
-  const handleClose = () => {
+  const handleClose = (): void => {
     setIsModalOpen(false)
     setEditingClient(undefined)
   }
@@ -34,10 +34,12 @@ export function DashboardPage(): JSX.Element {
           </div>
           <div>
             <h1 className="text-2xl font-bold text-slate-800 tracking-tight">Panel de Control</h1>
-            <p className="text-sm text-slate-500">Gestiona tus clientes y sus métricas corporales</p>
+            <p className="text-sm text-slate-500">
+              Gestiona tus clientes y sus métricas corporales
+            </p>
           </div>
         </div>
-        
+
         <Button onClick={handleOpenCreate} className="gap-2">
           <UserPlus size={18} />
           Nuevo Cliente
@@ -48,19 +50,19 @@ export function DashboardPage(): JSX.Element {
         <ClientsList onEdit={handleOpenEdit} />
       </main>
 
-      <Modal 
-        isOpen={isModalOpen} 
-        onClose={handleClose} 
+      <Modal
+        isOpen={isModalOpen}
+        onClose={handleClose}
         title={editingClient ? 'Editar Cliente' : 'Registrar Nuevo Cliente'}
         size="lg"
       >
-        <ClientForm 
+        <ClientForm
           key={editingClient?.id || 'new'}
-          initialData={editingClient} 
-          onSuccess={handleClose} 
+          initialData={editingClient}
+          onSuccess={handleClose}
           onCancel={() => {
             if (confirm('¿Cerrar el formulario? Se perderán los datos no guardados.')) handleClose()
-          }} 
+          }}
         />
       </Modal>
     </div>

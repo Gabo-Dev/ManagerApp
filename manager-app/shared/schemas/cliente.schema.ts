@@ -7,4 +7,3 @@ export const ClienteSchema = z.object({
 })
 
 export type ClienteFormData = z.infer<typeof ClienteSchema>
-

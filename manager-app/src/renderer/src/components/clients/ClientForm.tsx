@@ -1,9 +1,8 @@
 import { useState, type JSX, type FormEvent } from 'react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { createClient, updateClient } from '../data/client.data'
+import { createClient, updateClient } from '@renderer/data/client.data.ts'
 import { type Client, type NewClient } from '@/repositories/clients.repository'
-import { Button } from './Button'
-import { clientSchema } from '@/schemas/cliente.schema'
+import { Button } from '@renderer/components/Button.tsx'
 
 interface ClientFormProps {
   initialData?: Client
@@ -35,13 +34,6 @@ export function ClientForm({ initialData, onSuccess, onCancel }: ClientFormProps
 
   const handleSubmit = (e: FormEvent): void => {
     e.preventDefault()
-
-    const validation = clientSchema.safeParse(formData)
-
-    if (!validation.success) {
-      alert(validation.error.errors[0].message)
-      return
-    }
     mutation.mutate(formData)
   }
 
