@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { z } from 'zod'
 
 export const RevisionSchema = z.object({
   pesoAyunasKg: z.number().positive('El peso debe ser mayor a 0'),
@@ -10,13 +10,13 @@ export const RevisionSchema = z.object({
     tricipital: z.number().nonnegative(),
     escapular: z.number().nonnegative(),
     abdominal: z.number().nonnegative(),
-    iliaco: z.number().nonnegative(),
+    iliaco: z.number().nonnegative()
   }),
   circunferencias: z.object({
     brazo: z.number().nonnegative(),
     muslo: z.number().nonnegative(),
-    pantorrilla: z.number().nonnegative(),
+    pantorrilla: z.number().nonnegative()
   })
-});
+})
 
-export type RevisionFormData = z.infer<typeof RevisionSchema>;
+export type RevisionFormData = z.infer<typeof RevisionSchema>

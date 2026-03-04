@@ -15,37 +15,54 @@ export const revisiones = sqliteTable('revisiones', {
     .notNull()
     .references(() => clientes.id, { onDelete: 'cascade' }),
   fecha: text('fecha').notNull(),
-
-  edad: integer('edad').notNull(),
+  semanaRevision: integer('semana_revision').notNull(),
   sexo: text('sexo', { enum: ['H', 'M'] }).notNull(),
-  tipoActividad: text('tipo_actividad', { enum: ['suave', 'alto'] }).notNull(),
-  pesoAyunasKg: real('peso_ayunas_kg').notNull(),
+  edad: integer('edad').notNull(),
   estaturaM: real('estatura_m').notNull(),
+  etapaActual: text('etapa_actual').notNull(),
 
-  pliegueTricipital: real('pliegue_tricipital').notNull(),
-  pliegueEscapular: real('pliegue_escapular').notNull(),
-  pliegueAbdominal: real('pliegue_abdominal').notNull(),
-  pliegueIliaco: real('pliegue_iliaco').notNull(),
+  // Pesos
+  pesoAyunasKg: real('peso_ayunas_kg').notNull(),
+  pesoObjetivoKg: real('peso_objetivo_kg').notNull(),
 
-  circunferenciaBrazo: real('circunferencia_brazo').notNull(),
-  circunferenciaMuslo: real('circunferencia_muslo').notNull(),
-  circunferenciaPantorrilla: real('circunferencia_pantorrilla').notNull(),
+  // Medidas de Circunferencia
+  cuelloCm: real('cuello_cm').notNull(),
+  cinturaCm: real('cintura_cm').notNull(),
+  caderaCm: real('cadera_cm').notNull(),
+  pechoCm: real('pecho_cm').notNull(),
+  espaldaCm: real('espalda_cm').notNull(),
 
-  medidaCuello: real('medida_cuello'),
-  medidaCintura: real('medida_cintura'),
-  medidaCadera: real('medida_cadera'),
-  medidaPecho: real('medida_pecho'),
-  medidaEspalda: real('medida_espalda'),
-  medidaBiceps: real('medida_biceps'),
-  medidaCuadriceps: real('medida_cuadriceps'),
-  medidaGemelo: real('medida_gemelo'),
+  // Extremidades (Lateralidad)
+  bicepsIzqCm: real('biceps_izq_cm').notNull(),
+  bicepsDerCm: real('biceps_der_cm').notNull(),
+  cuadricepsIzqCm: real('cuadriceps_izq_cm').notNull(),
+  cuadricepsDerCm: real('cuadriceps_der_cm').notNull(),
+  gemeloIzqCm: real('gemelo_izq_cm').notNull(),
+  gemeloDerCm: real('gemelo_der_cm').notNull(),
 
+  // Pliegues
+  tricipitalMm: real('tricipital_mm').notNull(),
+  escapularMm: real('escapular_mm').notNull(),
+  abdominalMm: real('abdominal_mm').notNull(),
+  cIliacaMm: real('c_iliaca_mm').notNull(),
+
+  // Resultados Calculados
   imc: real('imc').notNull(),
   porcentajeGrasa: real('porcentaje_grasa').notNull(),
+  porcentajeGrasaObjetivo: real('porcentaje_grasa_objetivo').notNull(),
   pesoGrasoKg: real('peso_graso_kg').notNull(),
   mlgKg: real('mlg_kg').notNull(),
-  porcentajeMME: real('porcentaje_mme').notNull(),
+  porcentajeMme: real('porcentaje_mme').notNull(),
   porcentajeOtros: real('porcentaje_otros').notNull(),
 
-  observaciones: text('observaciones')
+  // Campos adicionales del motor original
+  circunferenciaBrazoCm: real('circunferencia_brazo_cm').notNull(),
+  circunferenciaMusloCm: real('circunferencia_muslo_cm').notNull(),
+  circunferenciaPantorrillaCm: real('circunferencia_pantorrilla_cm').notNull(),
+
+  cicloFemenino: text('ciclo_femenino'),
+  observaciones: text('observaciones'),
+
+  createdAt: text('created_at').notNull(),
+  updatedAt: text('updated_at').notNull()
 })

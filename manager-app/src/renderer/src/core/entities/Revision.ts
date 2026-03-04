@@ -53,4 +53,3 @@ export interface Revision {
 }
 
 export type CreateRevisionInput = Omit<Revision, 'id'>
-

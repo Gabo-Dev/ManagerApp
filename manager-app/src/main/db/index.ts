@@ -14,22 +14,16 @@ const sqlite = new Database(dbPath)
 
 export const db = drizzle(sqlite, { schema })
 
-/**
- * Función para ejecutar migraciones al inicio.
- */
 export const initDB = async (): Promise<void> => {
   try {
     const migrationsPath = is.dev
       ? path.join(process.cwd(), 'drizzle')
       : path.join(process.resourcesPath, 'drizzle')
 
-    console.log(`🚀 Iniciando base de datos en: ${dbPath}`)
-
     migrate(db, { migrationsFolder: migrationsPath })
-
-    console.log('✅ Migraciones aplicadas con éxito')
   } catch (error) {
-    console.error('❌ Error al inicializar la base de datos:', error)
+    // TODO: Considerar un manejo de error más robusto para la inicialización de la DB.
+    console.error('❌ Error al inicializar la base de datos:', error) // Mantener para depuración.
     throw error
   }
 }

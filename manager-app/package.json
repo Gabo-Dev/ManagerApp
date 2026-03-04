@@ -24,6 +24,8 @@
     "@electron-toolkit/preload": "^3.0.2",
     "@electron-toolkit/utils": "^4.0.0",
     "@libsql/client": "^0.17.0",
+    "@tanstack/react-query": "^5.90.21",
+    "@tanstack/react-table": "^8.21.3",
     "better-sqlite3": "^12.6.2",
     "drizzle-orm": "^0.45.1",
     "lucide-react": "^0.575.0",

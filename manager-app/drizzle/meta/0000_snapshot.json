@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "acbcacdf-260e-4f8f-9741-dd4610f8b6ac",
+  "id": "c57cbb63-afeb-44de-86c3-773ae6b671fe",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "clientes": {
@@ -88,8 +88,8 @@
           "notNull": true,
           "autoincrement": false
         },
-        "edad": {
-          "name": "edad",
+        "semana_revision": {
+          "name": "semana_revision",
           "type": "integer",
           "primaryKey": false,
           "notNull": true,
@@ -102,8 +102,22 @@
           "notNull": true,
           "autoincrement": false
         },
-        "tipo_actividad": {
-          "name": "tipo_actividad",
+        "edad": {
+          "name": "edad",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "estatura_m": {
+          "name": "estatura_m",
+          "type": "real",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "etapa_actual": {
+          "name": "etapa_actual",
           "type": "text",
           "primaryKey": false,
           "notNull": true,
@@ -116,116 +130,116 @@
           "notNull": true,
           "autoincrement": false
         },
-        "estatura_m": {
-          "name": "estatura_m",
+        "peso_objetivo_kg": {
+          "name": "peso_objetivo_kg",
           "type": "real",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
-        "pliegue_tricipital": {
-          "name": "pliegue_tricipital",
+        "cuello_cm": {
+          "name": "cuello_cm",
           "type": "real",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
-        "pliegue_escapular": {
-          "name": "pliegue_escapular",
+        "cintura_cm": {
+          "name": "cintura_cm",
           "type": "real",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
-        "pliegue_abdominal": {
-          "name": "pliegue_abdominal",
+        "cadera_cm": {
+          "name": "cadera_cm",
           "type": "real",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
-        "pliegue_iliaco": {
-          "name": "pliegue_iliaco",
+        "pecho_cm": {
+          "name": "pecho_cm",
           "type": "real",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
-        "circunferencia_brazo": {
-          "name": "circunferencia_brazo",
+        "espalda_cm": {
+          "name": "espalda_cm",
           "type": "real",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
-        "circunferencia_muslo": {
-          "name": "circunferencia_muslo",
+        "biceps_izq_cm": {
+          "name": "biceps_izq_cm",
           "type": "real",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
-        "circunferencia_pantorrilla": {
-          "name": "circunferencia_pantorrilla",
+        "biceps_der_cm": {
+          "name": "biceps_der_cm",
           "type": "real",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
-        "medida_cuello": {
-          "name": "medida_cuello",
+        "cuadriceps_izq_cm": {
+          "name": "cuadriceps_izq_cm",
           "type": "real",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
           "autoincrement": false
         },
-        "medida_cintura": {
-          "name": "medida_cintura",
+        "cuadriceps_der_cm": {
+          "name": "cuadriceps_der_cm",
           "type": "real",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
           "autoincrement": false
         },
-        "medida_cadera": {
-          "name": "medida_cadera",
+        "gemelo_izq_cm": {
+          "name": "gemelo_izq_cm",
           "type": "real",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
           "autoincrement": false
         },
-        "medida_pecho": {
-          "name": "medida_pecho",
+        "gemelo_der_cm": {
+          "name": "gemelo_der_cm",
           "type": "real",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
           "autoincrement": false
         },
-        "medida_espalda": {
-          "name": "medida_espalda",
+        "tricipital_mm": {
+          "name": "tricipital_mm",
           "type": "real",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
           "autoincrement": false
         },
-        "medida_biceps": {
-          "name": "medida_biceps",
+        "escapular_mm": {
+          "name": "escapular_mm",
           "type": "real",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
           "autoincrement": false
         },
-        "medida_cuadriceps": {
-          "name": "medida_cuadriceps",
+        "abdominal_mm": {
+          "name": "abdominal_mm",
           "type": "real",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
           "autoincrement": false
         },
-        "medida_gemelo": {
-          "name": "medida_gemelo",
+        "c_iliaca_mm": {
+          "name": "c_iliaca_mm",
           "type": "real",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
           "autoincrement": false
         },
         "imc": {
@@ -237,6 +251,13 @@
         },
         "porcentaje_grasa": {
           "name": "porcentaje_grasa",
+          "type": "real",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "porcentaje_grasa_objetivo": {
+          "name": "porcentaje_grasa_objetivo",
           "type": "real",
           "primaryKey": false,
           "notNull": true,
@@ -270,11 +291,53 @@
           "notNull": true,
           "autoincrement": false
         },
+        "circunferencia_brazo_cm": {
+          "name": "circunferencia_brazo_cm",
+          "type": "real",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "circunferencia_muslo_cm": {
+          "name": "circunferencia_muslo_cm",
+          "type": "real",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "circunferencia_pantorrilla_cm": {
+          "name": "circunferencia_pantorrilla_cm",
+          "type": "real",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "ciclo_femenino": {
+          "name": "ciclo_femenino",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
         "observaciones": {
           "name": "observaciones",
           "type": "text",
           "primaryKey": false,
           "notNull": false,
+          "autoincrement": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
           "autoincrement": false
         }
       },
