@@ -12,18 +12,18 @@ ManagerApp is a powerful and privacy-focused desktop application designed for pr
 ## ✨ Key Features
 
 *   **Scalable Frontend Architecture:**
-    *   Persistent Layouts and Page system for consistent UI.
-    *   Internal navigation managed by **React Router**, ensuring decoupled UI and routing logic.
-    *   Clear folder structure (`layouts`, `pages`, `components`) for maintainability.
+    *   📄 Persistent Layouts and Page system for consistent UI.
+    *   ➡️ Internal navigation managed by **React Router**, ensuring decoupled UI and routing logic.
+    *   📁 Clear folder structure (`layouts`, `pages`, `components`) for maintainability.
 *   **Secure Main-Renderer Communication:**
-    *   Robust Inter-Process Communication (IPC) using `ipcMain.handle`/`ipcRenderer.invoke` for asynchronous communication.
-    *   **Preload Script** with `contextBridge` to securely expose APIs to the renderer, preventing Node.js API leakage.
+    *   📡 Robust Inter-Process Communication (IPC) using `ipcMain.handle`/`ipcRenderer.invoke` for asynchronous communication.
+    *   🔒 **Preload Script** with `contextBridge` to securely expose APIs to the renderer, preventing Node.js API leakage.
 *   **Repository Pattern for Data Access:**
-    *   All client database logic encapsulated within a `clientRepository`.
-    *   Implemented methods for **Creating** and **Reading** clients, adhering to single responsibility principles.
-*   **Local-first Data Storage:** Emphasizing privacy and user control, all data is stored locally.
-*   **Client Management:** Efficient tools for adding, viewing, and managing client profiles.
-*   **Body Metrics Tracking:** Comprehensive system for recording and analyzing client body metrics over time.
+    *   🗄️ All client database logic encapsulated within a `clientRepository`.
+    *   ➕📖 Implemented methods for **Creating** and **Reading** clients, adhering to single responsibility principles.
+*   💾 **Local-first Data Storage:** Emphasizing privacy and user control, all data is stored locally.
+*   👥 **Client Management:** Efficient tools for adding, viewing, and managing client profiles.
+*   💪 **Body Metrics Tracking:** Comprehensive system for recording and analyzing client body metrics over time.
 
 ## 🛠️ Technologies Used
 
