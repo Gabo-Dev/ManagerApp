@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { clientSchema, type ClientFormData } from '@shared/schemas/client.schema.ts'
+import { clientSchema, type ClientFormData } from '@shared/schemas/client.schema'
 
 const createBaseInputs = (): Partial<ClientFormData> => ({
   nombre: 'Jule',

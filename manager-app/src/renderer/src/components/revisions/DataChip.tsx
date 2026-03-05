@@ -5,7 +5,7 @@ interface DataChipProps {
   value: number | string
   unit?: string
   icon?: ReactNode
-  variant?: 'blue' | 'emerald' | 'amber' | 'indigo' | 'slate'
+  variant?: 'blue' | 'emerald' | 'amber' | 'indigo' | 'slate' | 'rose'
 }
 
 export function DataChip({
@@ -20,7 +20,8 @@ export function DataChip({
     emerald: 'border-emerald-100 bg-emerald-50/50 text-emerald-700 shadow-emerald-100/50',
     amber: 'border-amber-100 bg-amber-50/50 text-amber-700 shadow-amber-100/50',
     indigo: 'border-indigo-100 bg-indigo-50/50 text-indigo-700 shadow-indigo-100/50',
-    slate: 'border-slate-100 bg-slate-50/50 text-slate-700 shadow-slate-100/50'
+    slate: 'border-slate-100 bg-slate-50/50 text-slate-700 shadow-slate-100/50',
+    rose: 'border-rose-100 bg-rose-50/50 text-rose-700 shadow-rose-100/50'
   }
 
   return (

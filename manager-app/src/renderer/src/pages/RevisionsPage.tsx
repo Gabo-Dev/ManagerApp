@@ -193,18 +193,19 @@ export function RevisionsPage(): JSX.Element {
         size="2xl"
       >
         <div className="max-h-[75vh] overflow-y-auto pr-2 custom-scrollbar">
-          <RevisionForm
-            clientId={selectedClientId!}
-            clientEmail={selectedClient?.email || ''}
+          <RevisionForm 
+            clientId={selectedClientId!} 
             initialData={editingRevision}
             previousRevision={previousRevision}
             onSuccess={(data) => saveMutation.mutate(data)}
-            onCancel={() =>
-              openConfirm('Descartar cambios', '¿Estás seguro de cancelar?', () => {
+            onCancel={() => openConfirm(
+              'Descartar cambios',
+              '¿Estás seguro de cancelar?',
+              () => {
                 setIsModalOpen(false)
                 closeConfirm()
-              })
-            }
+              }
+            )}
           />
         </div>
       </Modal>

@@ -1,8 +1,9 @@
-import { ElectronAPI } from '@electron-toolkit/preload'
+import { type IpcRenderer } from 'electron'
+import { type dbApi } from './preload'
 
 declare global {
   interface Window {
-    electron: ElectronAPI
-    api: unknown
+    ipcRenderer: IpcRenderer,
+    db: typeof dbApi
   }
 }

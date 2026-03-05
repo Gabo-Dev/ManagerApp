@@ -153,7 +153,7 @@ export function useRevisionForm({
     if (validation.success) {
       onSuccess(validation.data)
     } else {
-      alert(`Error: ${validation.error.errors[0].message}`)
+      alert(`Error in validation`)
     }
   }
 

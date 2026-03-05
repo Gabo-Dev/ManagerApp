@@ -2,7 +2,12 @@ import { useState, useMemo } from 'react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { useLocation } from 'react-router-dom'
 import { fetchAllClients } from '@renderer/data/client.data'
-import { fetchClientRevisions, deleteRevision, createRevision, updateRevision } from '@renderer/data/revision.data'
+import {
+  fetchClientRevisions,
+  deleteRevision,
+  createRevision,
+  updateRevision
+} from '@renderer/data/revision.data'
 import { type Client } from '@/repositories/clients.repository'
 import { type Revision } from '@/repositories/revisions.repository'
 import { type RevisionFormData } from '@shared/schemas/revision.schema'
@@ -18,13 +23,13 @@ interface ConfirmConfig {
 export function useRevisionsPage() {
   const queryClient = useQueryClient()
   const location = useLocation()
-  
+
   const state = location.state as { clientId?: string } | null
   const [selectedClientId, setSelectedClientId] = useState<string | null>(state?.clientId || null)
   const [searchTerm, setSearchTerm] = useState('')
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [editingRevision, setEditingRevision] = useState<Revision | undefined>(undefined)
-  
+
   const [confirmConfig, setConfirmConfig] = useState<ConfirmConfig>({
     isOpen: false,
     title: '',
@@ -57,8 +62,8 @@ export function useRevisionsPage() {
   // 4. Mutaciones
   const saveMutation = useMutation({
     mutationFn: async (data: RevisionFormData) => {
-      if (editingRevision) return updateRevision(editingRevision.id, data)
-      return createRevision(data)
+      if (editingRevision) return updateRevision(editingRevision.id, data as any)
+      return createRevision(data as any)
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['revisions', selectedClientId] })
@@ -75,22 +80,31 @@ export function useRevisionsPage() {
   })
 
   // 5. Estado Derivado
-  const selectedClient = useMemo(() => clients.find(c => c.id === selectedClientId), [clients, selectedClientId])
+  const selectedClient = useMemo(
+    () => clients.find((c) => c.id === selectedClientId),
+    [clients, selectedClientId]
+  )
 
   const filteredClients = useMemo(() => {
-    return clients.filter(c => 
-      c.nombre.toLowerCase().includes(searchTerm.toLowerCase()) || 
-      c.email.toLowerCase().includes(searchTerm.toLowerCase())
+    return clients.filter(
+      (c) =>
+        c.nombre.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        c.email.toLowerCase().includes(searchTerm.toLowerCase())
     )
   }, [clients, searchTerm])
 
   // 6. Handlers
-  const openConfirm = (title: string, message: string, onConfirm: () => void, variant: 'danger' | 'warning' = 'warning'): void => {
+  const openConfirm = (
+    title: string,
+    message: string,
+    onConfirm: () => void,
+    variant: 'danger' | 'warning' = 'warning'
+  ): void => {
     setConfirmConfig({ isOpen: true, title, message, onConfirm, variant })
   }
 
   const closeConfirm = (): void => {
-    setConfirmConfig(prev => ({ ...prev, isOpen: false }))
+    setConfirmConfig((prev) => ({ ...prev, isOpen: false }))
   }
 
   return {

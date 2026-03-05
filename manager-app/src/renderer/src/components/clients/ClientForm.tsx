@@ -1,8 +1,8 @@
 import { useState, type JSX, type FormEvent } from 'react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { createClient, updateClient } from '@renderer/data/client.data.ts'
+import { createClient, updateClient } from '@renderer/data/client.data'
 import { type Client, type NewClient } from '@/repositories/clients.repository'
-import { Button } from '@renderer/components/Button.tsx'
+import { Button } from '@renderer/components/Button'
 
 interface ClientFormProps {
   initialData?: Client

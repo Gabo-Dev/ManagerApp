@@ -10,14 +10,13 @@ import { useRevisionForm } from './useRevisionForm'
 
 export function RevisionForm({
   clientId,
-  clientEmail,
   initialData,
   previousRevision,
   onSuccess,
   onCancel
 }: RevisionFormProps): JSX.Element {
   const { formData, calculatedResults, missingFields, isFormComplete, updateField, handleSubmit } =
-    useRevisionForm({ clientId, clientEmail, initialData, previousRevision, onSuccess })
+    useRevisionForm({ clientId, initialData, previousRevision, onSuccess })
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6 pb-24">
@@ -112,7 +111,6 @@ export function RevisionForm({
 
 interface RevisionFormProps {
   clientId: string
-  clientEmail: string
   initialData?: Revision
   previousRevision?: Revision
   onSuccess: (data: RevisionFormData) => void
