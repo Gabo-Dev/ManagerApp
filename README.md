@@ -1,4 +1,4 @@
-# ManagerApp 📈 | Client & Body Metrics Management for Professionals
+# ManagerApp 📈 | Gestión de Clientes y Métricas Corporales para Profesionales
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Built with Electron](https://img.shields.io/badge/Built_with-Electron-404040.svg?logo=electron&logoColor=white)](https://www.electronjs.org/)
@@ -7,116 +7,116 @@
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=flat&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
 [![Vite](https://img.shields.io/badge/Vite-646CFF?style=flat&logo=vite&logoColor=white)](https://vitejs.dev/)
 
-ManagerApp is a powerful and privacy-focused desktop application designed for professionals to efficiently manage client information and track essential body metrics. Built with a modern technology stack including Electron, React, and TypeScript, it emphasizes a local-first approach to data handling, ensuring user privacy and data control. Its clean and scalable architecture makes it a reliable tool for focused client management without relying on cloud services.
+ManagerApp es una potente aplicación de escritorio, centrada en la privacidad, diseñada para que los profesionales gestionen eficientemente la información de sus clientes y realicen un seguimiento de métricas corporales esenciales. Construida con una pila tecnológica moderna que incluye Electron, React y TypeScript, enfatiza un enfoque de "local-first" para el manejo de datos, garantizando la privacidad del usuario y el control de sus datos. Su arquitectura limpia y escalable la convierte en una herramienta fiable para una gestión de clientes enfocada, sin depender de servicios en la nube.
 
-## ✨ Key Features
+## ✨ Características Clave
 
-*   **Scalable Frontend Architecture:**
-    *   📄 Persistent Layouts and Page system for consistent UI.
-    *   ➡️ Internal navigation managed by **React Router**, ensuring decoupled UI and routing logic.
-    *   📁 Clear folder structure (`layouts`, `pages`, `components`) for maintainability.
-*   **Secure Main-Renderer Communication:**
-    *   📡 Robust Inter-Process Communication (IPC) using `ipcMain.handle`/`ipcRenderer.invoke` for asynchronous communication.
-    *   🔒 **Preload Script** with `contextBridge` to securely expose APIs to the renderer, preventing Node.js API leakage.
-*   **Repository Pattern for Data Access:**
-    *   🗄️ All client database logic encapsulated within a `clientRepository`.
-    *   ➕📖 Implemented methods for **Creating** and **Reading** clients, adhering to single responsibility principles.
-*   💾 **Local-first Data Storage:** Emphasizing privacy and user control, all data is stored locally.
-*   👥 **Client Management:** Efficient tools for adding, viewing, and managing client profiles.
-*   💪 **Body Metrics Tracking:** Comprehensive system for recording and analyzing client body metrics over time.
+*   **Arquitectura Frontend Escalable:**
+    *   📄 Diseños persistentes y sistema de Páginas para una interfaz de usuario consistente.
+    *   ➡️ Navegación interna gestionada por **React Router**, asegurando una lógica de interfaz de usuario y enrutamiento desacoplada.
+    *   📁 Estructura de carpetas clara (`layouts`, `pages`, `components`) para facilitar el mantenimiento.
+*   **Comunicación Segura entre Proceso Principal y de Renderizado:**
+    *   📡 Comunicación Robusta entre Procesos (IPC) utilizando `ipcMain.handle`/`ipcRenderer.invoke` para comunicación asíncrona.
+    *   🔒 **Script de precarga (Preload Script)** con `contextBridge` para exponer APIs de forma segura al proceso de renderizado, evitando la fuga de APIs de Node.js.
+*   **Patrón de Repositorio para Acceso a Datos:**
+    *   🗄️ Toda la lógica de la base de datos de clientes encapsulada dentro de un `clientRepository`.
+    *   ➕📖 Métodos implementados para **Crear** y **Leer** clientes, adhiriéndose a los principios de responsabilidad única.
+*   💾 **Almacenamiento de Datos "Local-first":** Haciendo hincapié en la privacidad y el control del usuario, todos los datos se almacenan localmente.
+*   👥 **Gestión de Clientes:** Herramientas eficientes para añadir, ver y gestionar perfiles de clientes.
+*   💪 **Seguimiento de Métricas Corporales:** Sistema completo para registrar y analizar las métricas corporales de los clientes a lo largo del tiempo.
 
-## 🛠️ Technologies Used
+## 🛠️ Tecnologías Utilizadas
 
-*   **Desktop Framework**: [Electron](https://www.electronjs.org/)
-*   **Frontend Tooling**: [Vite](https://vitejs.dev/) + [React](https://reactjs.org/)
-*   **Language**: TypeScript
-*   **Styling**: Tailwind CSS
-*   **Database**: SQLite with [Drizzle ORM](https://orm.drizzle.team/)
-*   **Routing**: React Router DOM
-*   **Global State Management**: Zustand
-*   **Schema Validation**: Zod
+*   **Framework de Escritorio**: [Electron](https://www.electronjs.org/)
+*   **Herramientas Frontend**: [Vite](https://vitejs.dev/) + [React](https://reactjs.org/)
+*   **Lenguaje**: TypeScript
+*   **Estilos**: Tailwind CSS
+*   **Base de Datos**: SQLite con [Drizzle ORM](https://orm.drizzle.team/)
+*   **Enrutamiento**: React Router DOM
+*   **Gestión de Estado Global**: Zustand
+*   **Validación de Esquemas**: Zod
 
-## 🚀 Getting Started
+## 🚀 Comenzando
 
-Follow these steps to set up and run ManagerApp locally:
+Sigue estos pasos para configurar y ejecutar ManagerApp localmente:
 
-1.  **Clone the repository:**
+1.  **Clona el repositorio:**
     ```bash
     git clone https://github.com/Gabo-Dev/ManagerApp.git
     cd ManagerApp
     ```
 
-2.  **Install dependencies:**
+2.  **Instala las dependencias:**
     ```bash
     npm install
-    # or if you use pnpm
+    # o si usas pnpm
     # pnpm install
     ```
 
-3.  **Run the application in development mode:**
+3.  **Ejecuta la aplicación en modo desarrollo:**
     ```bash
     npm run dev
     ```
 
-4.  **Build the application for production:**
+4.  **Compila la aplicación para producción:**
     ```bash
     npm run build
     ```
-    The build artifacts will be located in the `dist` directory.
+    Los artefactos de construcción se encontrarán en el directorio `dist`.
 
-## 🤝 Contributing
+## 🤝 Contribuciones
 
-Contributions are always welcome! If you'd like to contribute to ManagerApp, please follow these steps:
+¡Las contribuciones son siempre bienvenidas! Si deseas contribuir a ManagerApp, por favor sigue estos pasos:
 
-1.  **Fork** the repository on GitHub.
-2.  **Clone** your forked repository to your local machine.
-3.  **Create a new branch** for your feature or bug fix.
-4.  **Make your changes** and ensure they adhere to the project's coding standards.
-5.  **Commit your changes** with a clear and descriptive commit message following [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) guidelines.
-6.  **Push your branch** to your forked repository.
-7.  **Open a Pull Request** to the `main` branch of the original ManagerApp repository, describing your changes in detail.
+1.  Haz un **fork** del repositorio en GitHub.
+2.  **Clona** tu repositorio bifurcado a tu máquina local.
+3.  **Crea una nueva rama** para tu característica o corrección de errores.
+4.  **Realiza tus cambios** y asegúrate de que se adhieren a los estándares de codificación del proyecto.
+5.  **Confirma tus cambios** con un mensaje de commit claro y descriptivo siguiendo las directrices de [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/).
+6.  **Sube tu rama** a tu repositorio bifurcado.
+7.  **Abre un Pull Request** a la rama `main` del repositorio original de ManagerApp, describiendo tus cambios en detalle.
 
-Your contributions help make ManagerApp better for everyone!
+¡Tus contribuciones ayudan a mejorar ManagerApp para todos!
 
-## 📧 Contact
+## 📧 Contacto
 
-If you have any questions, suggestions, or just want to connect, feel free to reach out!
+Si tienes alguna pregunta, sugerencia o simplemente quieres conectar, ¡no dudes en contactarme!
 
 *   **GitHub**: [@Gabo-Dev](https://github.com/Gabo-Dev)
 
-## 💡 Developer Insights & Journey
+## 💡 Reflexiones y Viaje del Desarrollador
 
-ManagerApp was born from a desire to combine several learning objectives and personal experiences. My journey into building this application was primarily motivated by:
+ManagerApp nació del deseo de combinar varios objetivos de aprendizaje y experiencias personales. Mi viaje en la construcción de esta aplicación fue motivado principalmente por:
 
-*   **Exploring Alternatives to Supabase Admin:** Having worked extensively with Supabase, I wanted to understand the intricacies of replicating similar administrative functionalities in a local-first desktop environment. This project served as an excellent playground for that exploration.
-*   **Deepening Skillset in Modern Desktop Development:** I aimed to dive deeper into Electron, React, and TypeScript, pushing the boundaries of what I could achieve with these technologies in a desktop application context. This included exploring robust IPC patterns and local data management.
-*   **Building a Practical Tool:** Beyond the learning aspect, there was a genuine interest in creating a functional, privacy-focused tool for managing clients and their metrics, addressing a common need for professionals.
-
----
-
-### Overcoming Typing Challenges with TypeScript
-
-One of the most significant challenges and rewarding learning experiences during ManagerApp's development revolved around **TypeScript's strong typing**. While TypeScript offers immense benefits in terms of code quality and maintainability, ensuring type coherence across different layers of the application – especially between the Electron `main` process and the `renderer` process, and with data persistence using Drizzle ORM – required careful planning and persistent effort.
-
-The goal was to maintain end-to-end type safety, from database schemas to API interactions and UI components, preventing common runtime errors and improving developer experience. This push for coherence truly highlighted the power and sometimes the complexity of managing a strongly typed codebase.
+*   **Explorar Alternativas a Supabase Admin:** Habiendo trabajado extensamente con Supabase, quería entender las complejidades de replicar funcionalidades administrativas similares en un entorno de escritorio "local-first". Este proyecto sirvió como un excelente campo de pruebas para esa exploración.
+*   **Profundizar en el Conjunto de Habilidades en Desarrollo de Escritorio Moderno:** Mi objetivo era profundizar en Electron, React y TypeScript, llevando al límite lo que podía lograr con estas tecnologías en el contexto de una aplicación de escritorio. Esto incluyó explorar patrones IPC robustos y la gestión local de datos.
+*   **Construir una Herramienta Práctica:** Más allá del aspecto de aprendizaje, había un interés genuino en crear una herramienta funcional y centrada en la privacidad para gestionar clientes y sus métricas, abordando una necesidad común para los profesionales.
 
 ---
 
-### My Favorite Feature: The Client Review Form
+### Superando los Retos de Tipado con TypeScript
 
-Among the many components and functionalities within ManagerApp, the **Client Review Form** stands out as my favorite feature. Its development presented a unique blend of UI/UX design, complex data handling, and intricate state management.
+Uno de los desafíos más significativos y las experiencias de aprendizaje más gratificantes durante el desarrollo de ManagerApp giró en torno al **tipado estricto de TypeScript**. Aunque TypeScript ofrece inmensos beneficios en términos de calidad y mantenibilidad del código, garantizar la coherencia de tipos en las diferentes capas de la aplicación –especialmente entre el proceso `main` de Electron y el proceso `renderer`, y con la persistencia de datos usando Drizzle ORM– requirió una planificación cuidadosa y un esfuerzo persistente.
 
-*   **Complexity**: This form isn't just a simple data entry point. It dynamically adapts based on various client metrics, involves real-time calculations, and requires robust validation to ensure data integrity.
-*   **Metrics & Dependencies**: The form interacts with multiple data points, including historical client data, current measurements, and user inputs. It relies heavily on the `clientRepository` for data persistence, global state management (Zustand) for form state, and Zod for schema validation. The interplay between these different layers, from the UI to the database, made its implementation particularly challenging and satisfying.
-*   **User Experience**: Crafting an intuitive and efficient experience for professionals to record and review client progress was a key focus, making it a central and impactful part of the application.
+El objetivo era mantener la seguridad de tipos de extremo a extremo, desde los esquemas de la base de datos hasta las interacciones de la API y los componentes de la interfaz de usuario, previniendo errores comunes en tiempo de ejecución y mejorando la experiencia del desarrollador. Este impulso por la coherencia realmente destacó el poder y, a veces, la complejidad de gestionar una base de código fuertemente tipada.
 
 ---
 
-### Key Learnings & Growth
+### Mi Característica Favorita: El Formulario de Revisión de Clientes
 
-This project has been a tremendous learning experience, contributing significantly to my growth as a developer. Some of the key takeaways include:
+Entre los muchos componentes y funcionalidades dentro de ManagerApp, el **Formulario de Revisión de Clientes** se destaca como mi característica favorita. Su desarrollo presentó una combinación única de diseño de UI/UX, manejo complejo de datos y una intrincada gestión de estado.
 
-*   **Advanced TypeScript Proficiency**: Gained deeper understanding and practical experience with advanced TypeScript features, particularly around asynchronous operations (`async/await`) and defining types for methods that primarily perform actions (`void`).
-*   **Improved Test Handling**: Enhanced my ability to write comprehensive and effective tests, understanding how to mock dependencies and isolate units of code for reliable testing.
-*   **Neovim Workflow Mastery**: Further refined my development workflow using Neovim, leveraging its power for efficient code editing, navigation, and project management.
-*   **Cross-OS Build Management**: Navigated and successfully overcame various build difficulties and environmental inconsistencies when compiling the Electron application across different operating systems, gaining valuable experience in cross-platform development challenges.
+*   **Complejidad**: Este formulario no es solo un simple punto de entrada de datos. Se adapta dinámicamente en función de varias métricas del cliente, implica cálculos en tiempo real y requiere una validación robusta para garantizar la integridad de los datos.
+*   **Métricas y Dependencias**: El formulario interactúa con múltiples puntos de datos, incluyendo datos históricos del cliente, mediciones actuales y entradas del usuario. Depende en gran medida del `clientRepository` para la persistencia de datos, la gestión de estado global (Zustand) para el estado del formulario y Zod para la validación de esquemas. La interacción entre estas diferentes capas, desde la UI hasta la base de datos, hizo que su implementación fuera particularmente desafiante y satisfactoria.
+*   **Experiencia de Usuario**: Diseñar una experiencia intuitiva y eficiente para que los profesionales registren y revisen el progreso del cliente fue un enfoque clave, convirtiéndolo en una parte central e impactante de la aplicación.
+
+---
+
+### Aprendizajes Clave y Crecimiento
+
+Este proyecto ha sido una tremenda experiencia de aprendizaje, contribuyendo significativamente a mi crecimiento como desarrollador. Algunas de las principales conclusiones incluyen:
+
+*   **Dominio Avanzado de TypeScript**: Obtuve una comprensión más profunda y experiencia práctica con características avanzadas de TypeScript, particularmente en torno a operaciones asíncronas (`async/await`) y la definición de tipos para métodos que principalmente realizan acciones (`void`).
+*   **Mejora en el Manejo de Pruebas**: Mejoré mi capacidad para escribir pruebas exhaustivas y efectivas, comprendiendo cómo simular dependencias y aislar unidades de código para pruebas fiables.
+*   **Dominio del Flujo de Trabajo con Neovim**: Refiné aún más mi flujo de trabajo de desarrollo utilizando Neovim, aprovechando su poder para la edición de código eficiente, la navegación y la gestión de proyectos.
+*   **Gestión de Compilaciones Multiplataforma**: Navegué y superé con éxito varias dificultades de compilación e inconsistencias ambientales al compilar la aplicación Electron en diferentes sistemas operativos, obteniendo una valiosa experiencia en los desafíos del desarrollo multiplataforma.
