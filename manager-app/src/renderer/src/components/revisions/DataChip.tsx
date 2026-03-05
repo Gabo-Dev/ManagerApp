@@ -8,7 +8,13 @@ interface DataChipProps {
   variant?: 'blue' | 'emerald' | 'amber' | 'indigo' | 'slate'
 }
 
-export function DataChip({ label, value, unit = '', icon, variant = 'slate' }: DataChipProps): JSX.Element {
+export function DataChip({
+  label,
+  value,
+  unit = '',
+  icon,
+  variant = 'slate'
+}: DataChipProps): JSX.Element {
   const themes = {
     blue: 'border-blue-100 bg-blue-50/50 text-blue-700 shadow-blue-100/50',
     emerald: 'border-emerald-100 bg-emerald-50/50 text-emerald-700 shadow-emerald-100/50',
@@ -18,13 +24,15 @@ export function DataChip({ label, value, unit = '', icon, variant = 'slate' }: D
   }
 
   return (
-    <div className={`
-      flex items-center gap-3 px-4 py-2.5 
-      border rounded-2xl shadow-sm 
+    <div
+      className={`
+      flex items-center gap-3 px-4 py-2.5
+      border rounded-2xl shadow-sm
       transition-all duration-300 hover:shadow-md hover:scale-[1.02]
       w-fit min-w-[120px]
       ${themes[variant]}
-    `}>
+    `}
+    >
       {icon && <div className="opacity-80">{icon}</div>}
       <div className="flex flex-col">
         <span className="text-[9px] font-black uppercase tracking-widest opacity-60 leading-none mb-1">

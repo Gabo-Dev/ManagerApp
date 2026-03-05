@@ -1,6 +1,49 @@
+# Dependencies
 node_modules
+.pnpm-store
+
+# Build Artifacts
 dist
 out
+release
+
+# Logs
+logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+.pnpm-debug.log*
+
+# OS generated files
 .DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Caches
 .eslintcache
-*.log*
+
+# Local Database
+*.db
+*.db-journal
+
+# Environment variables
+.env
+.env*.local
+.env.development
+.env.test
+.env.production
+
+# Electron specific
+.electron
+.electron-builder
+.vscode
+.idea
+*.iml
+*.bak

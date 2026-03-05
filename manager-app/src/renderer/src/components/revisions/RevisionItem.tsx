@@ -1,10 +1,7 @@
 import { useState, type JSX } from 'react'
 import { type Revision } from '@/repositories/revisions.repository'
 import { Button } from '../Button'
-import { 
-  ChevronDown, Calendar, Trash2, Edit2, Info,
-  Heart
-} from 'lucide-react'
+import { ChevronDown, Calendar, Trash2, Edit2, Info, Heart } from 'lucide-react'
 import { REVISION_SECTIONS } from './fields.config'
 import { MetricBadge } from './MetricBadge'
 import { DataChip } from './DataChip'
@@ -16,31 +13,50 @@ interface RevisionItemProps {
   onDelete: (id: string) => void
 }
 
-export function RevisionItem({ revision, isLatest, onEdit, onDelete }: RevisionItemProps): JSX.Element {
+export function RevisionItem({
+  revision,
+  isLatest,
+  onEdit,
+  onDelete
+}: RevisionItemProps): JSX.Element {
   const [isExpanded, setIsExpanded] = useState(false)
 
   return (
-    <div className={`
+    <div
+      className={`
       group bg-white border transition-all duration-500 rounded-[2.5rem]
       ${isLatest ? 'border-blue-200 ring-8 ring-blue-50/50 shadow-2xl shadow-blue-200/20' : 'border-slate-100 shadow-xl shadow-slate-200/30'}
       hover:shadow-2xl hover:border-blue-100
-    `}>
-      <div 
+    `}
+    >
+      <div
         className="p-6 flex items-center justify-between cursor-pointer select-none"
         onClick={() => setIsExpanded(!isExpanded)}
       >
         <div className="flex items-center gap-6">
-          <div className={`p-4 ${isLatest ? 'bg-blue-600 text-white shadow-xl shadow-blue-200' : 'bg-slate-50 text-slate-400'} rounded-3xl transition-all duration-500 group-hover:rotate-3`}>
+          <div
+            className={`p-4 ${isLatest ? 'bg-blue-600 text-white shadow-xl shadow-blue-200' : 'bg-slate-50 text-slate-400'} rounded-3xl transition-all duration-500 group-hover:rotate-3`}
+          >
             <Calendar size={24} />
           </div>
           <div className="space-y-1">
             <div className="flex items-center gap-3">
-              <p className="text-xl font-black text-slate-800 tracking-tighter">{new Date(revision.fecha).toLocaleDateString()}</p>
-              {isLatest && <span className="px-3 py-1 bg-blue-600 text-white text-[9px] font-black rounded-full uppercase tracking-[0.2em] shadow-lg shadow-blue-200">Última</span>}
+              <p className="text-xl font-black text-slate-800 tracking-tighter">
+                {new Date(revision.fecha).toLocaleDateString()}
+              </p>
+              {isLatest && (
+                <span className="px-3 py-1 bg-blue-600 text-white text-[9px] font-black rounded-full uppercase tracking-[0.2em] shadow-lg shadow-blue-200">
+                  Última
+                </span>
+              )}
             </div>
             <div className="flex items-center gap-2">
-              <span className="text-[10px] font-bold text-slate-400 bg-slate-50 px-2 py-0.5 rounded-lg border border-slate-100">Semana {revision.semanaRevision}</span>
-              <span className="text-[10px] font-black text-blue-500 uppercase tracking-widest">{revision.etapaActual}</span>
+              <span className="text-[10px] font-bold text-slate-400 bg-slate-50 px-2 py-0.5 rounded-lg border border-slate-100">
+                Semana {revision.semanaRevision}
+              </span>
+              <span className="text-[10px] font-black text-blue-500 uppercase tracking-widest">
+                {revision.etapaActual}
+              </span>
             </div>
           </div>
         </div>
@@ -52,14 +68,30 @@ export function RevisionItem({ revision, isLatest, onEdit, onDelete }: RevisionI
         </div>
         <div className="flex items-center gap-4">
           <div className="flex opacity-0 group-hover:opacity-100 transition-all duration-300 translate-x-4 group-hover:translate-x-0 gap-2">
-            <Button variant="ghost" className="w-11 h-11 rounded-2xl hover:bg-blue-50 text-slate-400 hover:text-blue-600" onClick={(e) => { e.stopPropagation(); onEdit(revision); }}>
+            <Button
+              variant="ghost"
+              className="w-11 h-11 rounded-2xl hover:bg-blue-50 text-slate-400 hover:text-blue-600"
+              onClick={(e) => {
+                e.stopPropagation()
+                onEdit(revision)
+              }}
+            >
               <Edit2 size={20} />
             </Button>
-            <Button variant="ghost" className="w-11 h-11 rounded-2xl hover:bg-red-50 text-slate-400 hover:text-red-600" onClick={(e) => { e.stopPropagation(); onDelete(revision.id); }}>
+            <Button
+              variant="ghost"
+              className="w-11 h-11 rounded-2xl hover:bg-red-50 text-slate-400 hover:text-red-600"
+              onClick={(e) => {
+                e.stopPropagation()
+                onDelete(revision.id)
+              }}
+            >
               <Trash2 size={20} />
             </Button>
           </div>
-          <div className={`p-3 rounded-2xl transition-all duration-500 ${isExpanded ? 'bg-slate-900 text-white rotate-180 shadow-xl' : 'bg-slate-50 text-slate-300'}`}>
+          <div
+            className={`p-3 rounded-2xl transition-all duration-500 ${isExpanded ? 'bg-slate-900 text-white rotate-180 shadow-xl' : 'bg-slate-50 text-slate-300'}`}
+          >
             <ChevronDown size={24} strokeWidth={3} />
           </div>
         </div>
@@ -74,16 +106,21 @@ export function RevisionItem({ revision, isLatest, onEdit, onDelete }: RevisionI
                   <section.icon size={14} strokeWidth={3} /> {section.title}
                 </h6>
                 <div className="flex flex-wrap gap-4">
-                  {section.fields.map(field => (
+                  {section.fields.map((field) => (
                     <DataChip
                       key={field.name}
                       label={field.label}
                       value={revision[field.name as keyof Revision] as string | number}
                       unit={
-                        field.name.includes('Kg') ? 'kg' : 
-                        field.name.includes('Cm') ? 'cm' : 
-                        field.name.includes('Mm') ? 'mm' : 
-                        field.name.includes('porcentaje') ? '%' : ''
+                        field.name.includes('Kg')
+                          ? 'kg'
+                          : field.name.includes('Cm')
+                            ? 'cm'
+                            : field.name.includes('Mm')
+                              ? 'mm'
+                              : field.name.includes('porcentaje')
+                                ? '%'
+                                : ''
                       }
                       variant="slate"
                     />
@@ -96,8 +133,17 @@ export function RevisionItem({ revision, isLatest, onEdit, onDelete }: RevisionI
                 <Info size={14} strokeWidth={3} /> Adicional
               </h6>
               <div className="flex flex-wrap gap-4">
-                {revision.observaciones && <DataChip label="Observaciones" value={revision.observaciones} variant="amber" />}
-                {revision.cicloFemenino && <DataChip label="Ciclo Femenino" value={revision.cicloFemenino} variant="rose" icon={<Heart size={14} />} />}
+                {revision.observaciones && (
+                  <DataChip label="Observaciones" value={revision.observaciones} variant="amber" />
+                )}
+                {revision.cicloFemenino && (
+                  <DataChip
+                    label="Ciclo Femenino"
+                    value={revision.cicloFemenino}
+                    variant="rose"
+                    icon={<Heart size={14} />}
+                  />
+                )}
               </div>
             </div>
           </div>
