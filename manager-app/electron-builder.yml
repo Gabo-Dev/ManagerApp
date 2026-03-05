@@ -2,6 +2,9 @@ appId: com.electron.app
 productName: manager-app
 directories:
   buildResources: build
+extraResources:
+  - from: drizzle
+    to: drizzle
 files:
   - '!**/.vscode/*'
   - '!src/*'
